@@ -13,7 +13,7 @@ A bunch of graphs and stuff.
 | JS single-line comments | capital letter, no period | `// Sample comment` |
 
 ## [License](LICENSE)
-This project is licensed under the License. 
+This project is licensed under the MIT License. 
 ```
 The MIT License (MIT)
 
