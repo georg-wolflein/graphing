@@ -1,6 +1,6 @@
 /**
  *
- * The main script. 
+ * The main script
  * 
  * Author: DigitalLeafGames
  * 

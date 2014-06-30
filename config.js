@@ -1,6 +1,6 @@
 /**
  *
- * The main configuration file.
+ * The main configuration file
  *
  * Author: DigitalLeafGames
  * 

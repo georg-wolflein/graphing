@@ -1,6 +1,6 @@
 /**
  *
- * The graphing script. 
+ * The graphing script
  * 
  * Author: DigitalLeafGames
  * 
