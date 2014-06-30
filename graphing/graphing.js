@@ -36,7 +36,7 @@ $.fn.drawBarGraph = function (dataArray, colorArray, graphTitle, graphSubtitle) 
     function createBars() {
         var graphTopMargin = 20; // Percentage of graph allocated to white space at the top
         var roundingPrecision = 2; // Number of sig figs rounded to when deciding actual white space at the top
-        var barWidth = 0.4; // When you combine all of the bars, this is their width combined as a percentage of the total drawing area's width
+        var barsTotalPercentWidth = 0.4; // When you combine all of the bars, this is their width combined as a percentage of the total drawing area's width
         var barSideMargin = 3; // The margin between bars is 1, to either side of the bars, this is the margin relative to that
 
         var maxValue = Math.max.apply(Math, dataArray.map(function (v) {
@@ -49,13 +49,23 @@ $.fn.drawBarGraph = function (dataArray, colorArray, graphTitle, graphSubtitle) 
             barArray.push($("<div></div>")
                 .css({
                     "background-color": colorArray[0],
-                    "width": drawingSurface.width() * barWidth / dataArray.length + "px",
+                    "width": drawingSurface.width() * barsTotalPercentWidth / dataArray.length + "px",
                     "height": drawingSurface.height() * (dataArray[i][0] / topBounds) + "px",
                     "position": "absolute",
-                    "left": drawingSurface.height() * 0.3 * i + "px",
+                    "left": calcLeftSpacing(i) + "px",
                     "bottom": 0
                 })
                 .appendTo(drawingSurface));
         }
+
+        function calcLeftSpacing(barNumber) {
+            var marginWidth = drawingSurface.width() * (1 - barsTotalPercentWidth) / (dataArray.length - 1 + 2 * barSideMargin); // Total bar surface / number of bars, pretty much
+            var barWidth = drawingSurface.width() * barsTotalPercentWidth / dataArray.length; // Finds percent of drawing area allocated to bars, then divides by number of bars
+            return marginWidth * (barSideMargin + barNumber) + barWidth * (barNumber); // Calculates correct number of margin and bar width spaces for each bar
+        }
+    }
+
+    function colorBars() {
+
     }
 };
