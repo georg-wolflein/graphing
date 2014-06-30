@@ -4,13 +4,20 @@
  * 
  * Author: DigitalLeafGames
  * 
+ * Note: Mr. Barlow is an inflated potato who shall forever not be missed
+ *
  */
 
-$.fn.drawBarGraph = function (dataArray, colorArray, graphTitle, graphSubtitle) {
+$.fn.drawBarGraph = function (dataArray, colorArray, graphTitle, graphSubtitle, xAxisLabel, yAxisLabel) {
     var container = this;
     var drawingSurface;
     var barArray = [];
+    var barLabelArray = [];
     var backgroundLineArray = [];
+    var backgroundLineLabelArray = [];
+    var title;
+    var xAxisLabelRef;
+    var yAxisLabelRef;
 
     this.css({
         "background-color": "#fff",
@@ -18,8 +25,11 @@ $.fn.drawBarGraph = function (dataArray, colorArray, graphTitle, graphSubtitle) 
     });
 
     createDrawingSurface();
-    createBars();
+    createBars(); // Also generates lines
     colorBars();
+    createTitles();
+    createXAxisLabel();
+    createYAxisLabel();
 
     function createDrawingSurface() {
         drawingSurface = $("<div></div>")
@@ -51,7 +61,7 @@ $.fn.drawBarGraph = function (dataArray, colorArray, graphTitle, graphSubtitle) 
             barArray.push($("<div></div>")
                 .css({
                     "background-color": colorArray[0],
-                    "width": drawingSurface.width() * barsTotalPercentWidth / dataArray.length + "px",
+                    "width": drawingSurface.innerWidth() * barsTotalPercentWidth / dataArray.length + "px",
                     "height": drawingSurface.height() * (dataArray[i][0] / topBounds) + "px",
                     "z-index": "10",
                     "position": "absolute",
@@ -62,12 +72,13 @@ $.fn.drawBarGraph = function (dataArray, colorArray, graphTitle, graphSubtitle) 
         }
 
         function calcLeftSpacing(barNumber) {
-            var marginWidth = drawingSurface.width() * (1 - barsTotalPercentWidth) / (dataArray.length - 1 + 2 * barSideMargin); // Total bar surface / number of bars, pretty much
-            var barWidth = drawingSurface.width() * barsTotalPercentWidth / dataArray.length; // Finds percent of drawing area allocated to bars, then divides by number of bars
+            var marginWidth = drawingSurface.innerWidth() * (1 - barsTotalPercentWidth) / (dataArray.length - 1 + 2 * barSideMargin); // Total bar surface / number of bars, pretty much
+            var barWidth = drawingSurface.innerWidth() * barsTotalPercentWidth / dataArray.length; // Finds percent of drawing area allocated to bars, then divides by number of bars
             return marginWidth * (barSideMargin + barNumber) + barWidth * (barNumber); // Calculates correct number of margin and bar width spaces for each bar
         }
 
-        generateLines(lineDensity, topBounds);
+        createLines(lineDensity, topBounds);
+        createBarLabels(barsTotalPercentWidth, barSideMargin);
     }
 
     function colorBars() {
@@ -78,7 +89,7 @@ $.fn.drawBarGraph = function (dataArray, colorArray, graphTitle, graphSubtitle) 
         }
     }
 
-    function generateLines(lineDensity, topBounds) {
+    function createLines(lineDensity, topBounds) {
         var lineSpacing = (2 * (topBounds / lineDensity)).toPrecision(1) / 2; // the 2 stuff makes it round to .5s as well as whole numbers (sig-fig-wise)
         console.log(lineSpacing);
         var numLines = Math.floor(topBounds / lineSpacing);
@@ -88,17 +99,136 @@ $.fn.drawBarGraph = function (dataArray, colorArray, graphTitle, graphSubtitle) 
                 .css({
                     "width": "100%",
                     "height": "1px",
-                    "background-color": "#ddd",
+                    "background-color": "#eee",
                     "z-index": "5",
                     "position": "absolute",
                     "left": "0",
-                    "bottom": calcBottom(i) + "px"})
+                    "bottom": calcBottom(i) + "px"
+                })
                 .appendTo(drawingSurface));
             }
         }
         
         function calcBottom (i){
             return (i + 1) * (lineSpacing / topBounds) * drawingSurface.height() - 1; // -1 is to get that last line, if possible (it makes a difference)
+        }
+
+        createLineLabels(lineSpacing, topBounds);
+    }
+
+    function createLineLabels(lineSpacing, topBounds) {
+        for (var i = 0; i <= backgroundLineArray.length; i++) {
+            backgroundLineLabelArray.push($("<div>" + lineSpacing * i + "</div>")
+                .css({
+                    "font-family": "'Open Sans', helvetica",
+                    "font-size": container.innerWidth() * 0.025 + "px",
+                    "text-align": "right",
+                    "color": "#999",
+                    "position": "absolute",
+                    "-webkit-user-select": "none",        
+                    "-moz-user-select": "none",
+                    "-ms-user-select": "none",
+                    "right": container.innerWidth() * 0.025 + drawingSurface.innerWidth() + "px",
+                })
+                .appendTo(drawingSurface));
+            backgroundLineLabelArray[i].css({
+                "bottom": (lineSpacing / topBounds) * drawingSurface.height() * i + backgroundLineLabelArray[i].height() * -0.5 + "px" // Needs to be done separately, since height hasn't been defined yet in the other CSS adjustment thingie
+            });
+        }
+    }
+
+    function createTitles() {
+        title = $("<div>asdasd</div>")
+            .appendTo(drawingSurface)
+            .css({
+                "font-family": "'Open Sans', helvetica",
+                "width": "100%",
+                "text-align": "center",
+                "position": "absolute"
+            })
+            .html("<span style='color: #aaa; font-size: " + container.height() * 0.05 + "px" + "'>" + graphTitle + "</span><br /><span style='color: #ccc; font-size: " + container.height() * 0.025 + "px" + "'>" + graphSubtitle + "</span>");
+        title.css({
+            "top": container.height() * -0.1 + title.height() * -0.5
+        });
+    }
+
+    function createXAxisLabel() {
+        xAxisLabelRef = $("<div>" + xAxisLabel + "</div>")
+            .css({
+                "font-family": "'Open Sans', helvetica",
+                "position": "absolute",
+                "color": "#999",
+                "font-size": container.innerWidth() * 0.025 + "px"
+            })
+            .appendTo(drawingSurface);
+        xAxisLabelRef.css({
+            "top": container.height() * 0.7 - xAxisLabelRef.height() / 2,
+            "left": drawingSurface.width() / 2 - xAxisLabelRef.width() / 2
+        });
+    }
+
+    function createYAxisLabel() {
+        yAxisLabelRef = $("<div>" + yAxisLabel + "</div>")
+            .css({
+                "font-family": "'Open Sans', helvetica",
+                "position": "absolute",
+                "color": "#999",
+                "font-size": container.innerWidth() * 0.025 + "px"
+            })
+            .appendTo(drawingSurface);
+        yAxisLabelRef.css({
+            "top": drawingSurface.height() / 2 - yAxisLabelRef.height() / 2,
+            "left": container.width() * -0.1 - yAxisLabelRef.width() / 2,
+            "transform": "rotate(-90deg)",
+            "-ms-transform": "rotate(-90deg)",
+            "-webkit-transform": "rotate(-90deg)",
+            "-moz-transform": "rotate(-90deg)"
+        });
+    }
+
+    function createBarLabels(barsTotalPercentWidth, barSideMargin) {
+        var rotateNecessary = false;
+        for (var i = 0; i < dataArray.length; i++) {
+            barLabelArray.push($("<div>" + dataArray[i][1] + "</div>")
+                .css({
+                    "font-family": "'Open Sans', helvetica",
+                    "position": "absolute",
+                    "color": "#999",
+                    "font-size": container.innerWidth() * 0.02 + "px",
+                    "position": "absolute"
+                })
+                .appendTo(drawingSurface));
+            barLabelArray[i].css({
+                "left": calcLeftSpacing(i, 1) + "px",
+                "top": container.height() * 0.6375 - barLabelArray[i].height() / 2 + "px"
+            });
+
+            if(barLabelArray[i].width() >= 0.8 * calcLeftSpacing(0, 1)) {
+                rotateNecessary = true;
+            }
+        }
+
+        if(rotateNecessary === true) {
+            for (var j = 0; j < barLabelArray.length; j++) {
+                barLabelArray[j].css({
+                    "transform": "rotate(20deg)",
+                    "-ms-transform": "rotate(20deg)",
+                    "-webkit-transform": "rotate(20deg)",
+                    "-moz-transform": "rotate(20deg)",
+                    "left": calcLeftSpacing(j, 1) + "px",
+                    "top": container.height() * 0.6375 - barLabelArray[j].height() / 2 + "px"
+                });
+            }
+        }
+
+        function calcLeftSpacing(barNumber, type) {
+            var marginWidth = drawingSurface.innerWidth() * (1 - barsTotalPercentWidth) / (dataArray.length - 1 + 2 * barSideMargin); // Total bar surface / number of bars, pretty much
+            var barWidth = drawingSurface.innerWidth() * barsTotalPercentWidth / dataArray.length; // Finds percent of drawing area allocated to bars, then divides by number of bars
+            if (type === 1) {
+                return marginWidth * (barSideMargin + barNumber) + barWidth * (barNumber) + barWidth / 2 - barLabelArray[barNumber].width() / 2; // Calculates correct number of margin and bar width spaces for each bar
+            } else {
+                return marginWidth + barWidth;
+            }
         }
     }
 };
