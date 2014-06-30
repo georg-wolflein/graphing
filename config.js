@@ -34,7 +34,7 @@ var config = {
 				 * The bar widths. 
 				 * @type {Number}
 				 */
-				width: 0.4;
+				width: 0.4
 			}
 		}
 	}
