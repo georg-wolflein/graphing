@@ -10,6 +10,7 @@ A bunch of graphs and stuff.
 | `id` | camelCase | `sampleIdOfAnElement` |
 | `class` | dashes | `sample-class-of-an-element` |
 | `color` | hexadecimal, shorthand | `#00f` |
+| JS single-line comments | capital letter, no period | `// Sample comment` |
 
 ## [License](LICENSE)
 This project is licensed under the License. 
