@@ -9,7 +9,7 @@ A bunch of graphs and stuff.
 | spelling | American English | color |
 | `id` | camelCase | `sampleIdOfAnElement` |
 | `class` | dashes | `sample-class-of-an-element` |
-| `color` | hexadecimal, shorthand | `#00f` |
+| `color` | shorthand lowercase hexadecimal | `#00f` |
 | JS single-line comments | capital letter, no period | `// Sample comment` |
 
 ## [License](LICENSE)
