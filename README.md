@@ -3,6 +3,12 @@ Graphing
 
 A bunch of graphs and stuff.
 
+## HTML/CSS/JS Coding Conventions
+| Type | Style | Example |
+| ---- | ----- | ------- |
+| `id` | camelCase | `sampleIdOfAnElement` |
+| `class` | dashes | `sample-class-of-an-element` |
+
 ## [License](LICENSE)
 This project is licensed under the License. 
 ```
