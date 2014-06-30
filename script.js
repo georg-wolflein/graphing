@@ -15,4 +15,5 @@ $(document).ready(function () {
 
     var data4 = [[223, "USA"], [156, "Germany"], [45, "Brasil"], [88, "China"], [129, "Russia"], [5, "UAE"]];
     $("#graphContainer2").drawBarGraph(data4, colors, "Number of Porkchops Consumed Throughout the World", "Number of Porkchops Consumed per Year in Thousands", "Country of Consumption", "Porkchops Consumed (Thousands)");
+    $("#graphContainer3").drawBarGraph([[223, "USA"], [156, "Germany"], [45, "Brasil"], [88, "China"], [129, "Russia"], [5, "UAE"], [223, "USA"], [156, "Germany"], [45, "Brasil"], [88, "China"], [129, "Russia"], [5, "UAE"]], colors, "Number of Porkchops Consumed Throughout the World", "Number of Porkchops Consumed per Year in Thousands", "Country of Consumption", "Porkchops Consumed (Thousands)");
 });

@@ -8,6 +8,8 @@
 
 body {
     background-color: #eeeeee;
+    margin: 0;
+    padding: 0;
 }
 
 #graphContainer {
@@ -19,6 +21,13 @@ body {
 }
 
 #graphContainer2 {
+    width: 1000px;
+    height: 750px;
+    margin: 0 auto;
+    margin-bottom: 100px;
+}
+
+#graphContainer3 {
     width: 1000px;
     height: 750px;
     margin: 0 auto;
