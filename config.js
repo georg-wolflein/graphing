@@ -1,8 +1,8 @@
 /**
  *
- * Main configuration file.
+ * The main configuration file.
  *
- * Authors: David Charatan and Georg Wölflein
+ * Author: DigitalLeafGames
  * 
  */
 

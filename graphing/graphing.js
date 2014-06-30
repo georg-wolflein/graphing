@@ -1,3 +1,11 @@
+/**
+ *
+ * The graphing script. 
+ * 
+ * Author: DigitalLeafGames
+ * 
+ */
+
 $.fn.drawBarGraph = function (dataArray, colorArray, graphTitle, graphSubtitle) {
     var container = this;
     var drawingSurface;
