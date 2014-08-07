@@ -3,8 +3,6 @@
  * The graphing script
  * 
  * Author: DigitalLeafGames
- * 
- * Note: Mr. Barlow is an inflated potato who shall forever not be missed
  *
  */
 
